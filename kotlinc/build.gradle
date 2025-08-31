@@ -78,7 +78,7 @@ shadowJar {
     exclude '**/*org/jetbrains/annotations/Nls*'
     exclude 'com/google/**'
 
-
+/*
     dependencies {
         exclude(dependency("org.jetbrains:annotations:23.0.0"))
         exclude(dependency("org.jetbrains.kotlin:kotlin-reflect:1.6.10"))
@@ -89,6 +89,7 @@ shadowJar {
         exclude(dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.8.0"))
         exclude(dependency("org.jetbrains.kotlin:kotlin-script-runtime:2.1.21"))
      }
+	 */
 	
     archiveFileName.set("kotlinc.jar")
     archiveClassifier.set("")
