@@ -74,7 +74,10 @@ tasks.build.dependsOn tasks.shadowJar
 shadowJar {  
     exclude 'META-INF/maven/org.jetbrains/*/pom.xml'
     exclude 'META-INF/maven/org.jetbrains/*/pom.properties'
-    exclude 'kotlin/**'
+    exclude 'META-INF/maven/**'
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
     exclude '**/*org/jetbrains/annotations/Nls*'
     exclude 'com/google/**'
 	exclude 'org/codehaus/**'
@@ -83,10 +86,10 @@ shadowJar {
     dependencies {
         exclude(dependency("org.jetbrains:annotations:23.0.0"))
         exclude(dependency("org.jetbrains.kotlin:kotlin-reflect:1.6.10"))
-        exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib:2.1.21"))
-        exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.21"))
-        exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.1.21"))
-        exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib-common:2.1.21"))
+     //   exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib:2.1.21"))
+    //    exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.21"))
+    //    exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.1.21"))
+       // exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib-common:2.1.21"))
         exclude(dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.8.0"))
         exclude(dependency("org.jetbrains.kotlin:kotlin-script-runtime:2.1.21"))
      }
@@ -101,6 +104,11 @@ shadowJar {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-compiler:2.1.21")
     implementation("org.jetbrains.intellij.deps:trove4j:1.0.20200330")
+	implementation("org.jetbrains.kotlin:kotlin-compiler:2.1.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-common:2.1.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.1.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.21")
 }
 
 publishing {
