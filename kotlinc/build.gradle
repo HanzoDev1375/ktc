@@ -77,8 +77,9 @@ shadowJar {
     exclude 'kotlin/**'
     exclude '**/*org/jetbrains/annotations/Nls*'
     exclude 'com/google/**'
+	exclude 'org/codehaus/**'
 
-/*
+
     dependencies {
         exclude(dependency("org.jetbrains:annotations:23.0.0"))
         exclude(dependency("org.jetbrains.kotlin:kotlin-reflect:1.6.10"))
@@ -89,7 +90,6 @@ shadowJar {
         exclude(dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.8.0"))
         exclude(dependency("org.jetbrains.kotlin:kotlin-script-runtime:2.1.21"))
      }
-	 */
 	
     archiveFileName.set("kotlinc.jar")
     archiveClassifier.set("")
@@ -108,7 +108,7 @@ publishing {
         shadow(MavenPublication) {
             groupId = 'ir.ninjacoder.ktc'
             artifactId = project.name
-            version = '2.1.21'
+            version = '3'
             artifact(tasks.shadowJar) {
                 builtBy tasks.shadowJar
             }
