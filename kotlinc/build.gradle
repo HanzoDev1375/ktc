@@ -26,7 +26,7 @@ buildscript {
 
 plugins {
     id 'java-library'
-    id 'org.jetbrains.kotlin.jvm' version '2.2.20'
+    id 'org.jetbrains.kotlin.jvm' version '2.0.21'
     id 'com.diffplug.spotless' version '7.0.3'
     id 'org.jlleitschuh.gradle.ktlint' version '12.1.0'   
     id 'com.github.johnrengelman.shadow' version '8.1.1' 
@@ -144,47 +144,18 @@ abstract class RemapingTask extends DefaultTask {
     void remap() {
         File originalJar = inputJar.get().asFile
         File outputJarFile = outputJar.get().asFile
-        File tempJar = new File(project.buildDir, "tmp/libs/${project.name}.jar")
 
-        tempJar.parentFile.mkdirs()
-        outputJarFile.parentFile.mkdirs()
-
-        tempJar.delete()
-        tempJar << originalJar.bytes
-
-        def remapper = new Remapper() {
-            @Override
-            String map(String name) {                
-                if (name.startsWith("com/intellij")) return name.replaceFirst("^com/intellij", "org/jetbrains/kotlin/com/intellij")
-                return name
-            }
+        // اگر فایل خروجی وجود دارد، حذفش کن
+        if (outputJarFile.exists()) {
+            outputJarFile.delete()
         }
 
-        try (
-            JarFile jar = new JarFile(tempJar)
-            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(outputJarFile))
-        ) {
-            Enumeration<JarEntry> entries = jar.entries()
-            while (entries.hasMoreElements()) {
-                JarEntry entry = entries.nextElement()
-                InputStream entryStream = jar.getInputStream(entry)
-
-                if (entry.getName().endsWith(".class")) {
-                    ClassReader reader = new ClassReader(entryStream)
-                    ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES)
-                    ClassRemapper remapperVisitor = new ClassRemapper(writer, remapper)
-                    reader.accept(remapperVisitor, ClassReader.EXPAND_FRAMES)
-                    byte[] remappedBytes = writer.toByteArray()
-                    String newName = remapper.map(entry.getName())
-                    out.putNextEntry(new ZipEntry(newName))
-                    out.write(remappedBytes)
-                } else {
-                    out.putNextEntry(new ZipEntry(entry.getName()))
-                    out.write(entryStream.readAllBytes())
-                }
-                out.closeEntry()
-                entryStream.close()
-            }
+        // کپی ساده از JAR بدون تغییر نام packageها
+        try (FileInputStream fis = new FileInputStream(originalJar);
+             FileOutputStream fos = new FileOutputStream(outputJarFile)) {
+            fis.transferTo(fos)
         }
+
+        logger.lifecycle("JAR file copied successfully: ${outputJarFile.name}")
     }
 }
