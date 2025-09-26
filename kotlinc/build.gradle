@@ -98,7 +98,7 @@ shadowJar {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-compiler:2.1.21")
+    implementation("org.jetbrains.kotlin:kotlin-compiler:2.2.20")
     implementation("org.jetbrains.intellij.deps:trove4j:1.0.20200330")
 }
 
